@@ -13,7 +13,17 @@ const fin_du_jeu = document.querySelector('#game-over-modal');
 const resultat = fin_du_jeu.querySelector('#game-result');
 const rejouer = fin_du_jeu.querySelector('#game-result + div > button');
 
-let mot = [];
-fetch("https://trouve-mot.fr/api/random")
-    .then((response) => response.json())
-    .then((nouveau_mot) => mot.push(nouveau_mot[0].name));
+let mot = "";
+async function chargerMot() {
+    const response = await fetch("https://trouve-mot.fr/api/random");
+    const data = await response.json();
+    mot = data[0].name;
+    mot = mot.replaceAll(/à|â|ä/g, "a");
+    mot = mot.replaceAll(/é|è|ê|ë/g, "e");
+    mot = mot.replaceAll(/î|ï/g, "i");
+    mot = mot.replaceAll(/ô|ö/g, "o");
+    mot = mot.replaceAll(/ù|û|ü/g, "u");
+    mot = mot.replaceAll(/ÿ/g, "y");
+    mot = mot.replaceAll(/ç/g, "c");
+    mot = mot.toUpperCase();
+}
