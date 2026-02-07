@@ -12,3 +12,8 @@ const conteneur_lettres = document.querySelector('#letters-used');
 const fin_du_jeu = document.querySelector('#game-over-modal');
 const resultat = fin_du_jeu.querySelector('#game-result');
 const rejouer = fin_du_jeu.querySelector('#game-result + div > button');
+
+let mot = [];
+fetch("https://trouve-mot.fr/api/random")
+    .then((response) => response.json())
+    .then((nouveau_mot) => mot.push(nouveau_mot[0].name));
