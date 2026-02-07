@@ -27,3 +27,19 @@ async function chargerMot() {
     mot = mot.replaceAll(/ç/g, "c");
     mot = mot.toUpperCase();
 }
+
+async function demarrerJeu() {
+  await chargerMot();
+  initialiserPendu();
+}
+
+function initialiserPendu() {
+    while (affichage_mot.hasChildNodes()) { // On supprime les tirets et lettres de l'ancien mot
+        affichage_mot.removeChild(affichage_mot.firstChild);
+    }
+    for (let i=0; i<mot.length; i++) { // On créé de nouveaux tirets correspondant au nouveau mot
+        const aAfficher = document.createElement("span");
+        aAfficher.classList.add("letter-placeholder");
+        affichage_mot.appendChild(aAfficher);
+    }
+}
