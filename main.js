@@ -43,3 +43,20 @@ function initialiserPendu() {
         affichageMot.appendChild(aAfficher);
     }
 }
+
+function essaiLettre(lettre, mot) {
+    const nouvelleLettre = document.createElement("div");
+    if (mot.includes(lettre)) {
+        nouvelleLettre.style = "color: green;";
+        conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en vert dans le conteneur des lettres déjà essayées
+        for (let i=0; i<mot.length; i++) {
+            if (lettre = mot[i]) {
+                const lettreBienPlacee = affichageMot.childNodes[i];
+                lettreBienPlacee.innerHTML = lettre; // Ecriture de la lettre au bon emplacement
+            }
+        }
+    } else {
+        nouvelleLettre.style = "color: red;";
+        conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en rouge dans le conteneur des lettres déjà essayées
+    }
+}
