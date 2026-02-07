@@ -2,11 +2,8 @@ const nouvellePartie = document.querySelector('.card-body .btn');
 const statErreurs = document.querySelector('#errors');
 const statStreak = document.querySelector('#record');
 const pendu = document.querySelector('#hangman');
-const erreur1 = pendu.querySelector('#error-1');
-const erreur2 = pendu.querySelector('#error-2');
-const erreur3 = pendu.querySelector('#error-3');
-const erreur4 = pendu.querySelector('#error-4');
-const erreur5 = pendu.querySelector('#error-5');
+const erreurs = pendu.querySelectorAll("[id^=error-]");
+console.log(erreurs);
 const affichageMot = document.querySelector('#word-display');
 const conteneurLettres = document.querySelector('#letters-used');
 const finDuJeu = document.querySelector('#game-over-modal');
@@ -34,6 +31,7 @@ async function demarrerJeu() {
 }
 
 function initialiserPendu() {
+    let nombreErreur = 0;
     while (affichageMot.hasChildNodes()) { // On supprime les tirets et lettres de l'ancien mot
         affichageMot.removeChild(affichageMot.firstChild);
     }
@@ -44,7 +42,7 @@ function initialiserPendu() {
     }
 }
 
-function essaiLettre(lettre, mot) {
+function essaiLettre(lettre, mot, nombreErreur) {
     const nouvelleLettre = document.createElement("div");
     if (mot.includes(lettre)) {
         nouvelleLettre.style = "color: green;";
@@ -58,5 +56,12 @@ function essaiLettre(lettre, mot) {
     } else {
         nouvelleLettre.style = "color: red;";
         conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en rouge dans le conteneur des lettres déjà essayées
+        nombreErreur += 1;
+        if (nombreErreur < 5) {
+            statErreurs.innerHTML = nombreErreur + "/5";
+            const erreur = erreurs[nombreErreur - 1];
+            erreur.classList.remove("hidden");
+            erreur.classList.add("block");
+        }
     }
 }
