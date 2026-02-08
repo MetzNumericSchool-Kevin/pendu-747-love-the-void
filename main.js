@@ -45,23 +45,30 @@ function initialiserPendu() {
 function essaiLettre(lettre, mot, nombreErreur) {
     const nouvelleLettre = document.createElement("div");
     if (mot.includes(lettre)) {
-        nouvelleLettre.style = "color: green;";
-        conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en vert dans le conteneur des lettres déjà essayées
-        for (let i=0; i<mot.length; i++) {
-            if (lettre = mot[i]) {
-                const lettreBienPlacee = affichageMot.childNodes[i];
-                lettreBienPlacee.innerHTML = lettre; // Ecriture de la lettre au bon emplacement
-            }
-        }
+        gererReussite(nouvelleLettre);
     } else {
-        nouvelleLettre.style = "color: red;";
-        conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en rouge dans le conteneur des lettres déjà essayées
-        nombreErreur += 1;
-        if (nombreErreur < 5) {
-            statErreurs.innerHTML = nombreErreur + "/5";
-            const erreur = erreurs[nombreErreur - 1];
-            erreur.classList.remove("hidden");
-            erreur.classList.add("block");
+        nombreErreur = gererErreur(nouvelleLettre, nombreErreur);
+    }
+}
+
+function gererReussite(nouvelleLettre) {
+    nouvelleLettre.style = "color: green;";
+    conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en vert dans le conteneur des lettres déjà essayées
+    for (let i=0; i<mot.length; i++) {
+        if (lettre = mot[i]) {
+            const lettreBienPlacee = affichageMot.childNodes[i];
+            lettreBienPlacee.innerHTML = lettre; // Ecriture de la lettre au bon emplacement
         }
     }
+}
+
+function gererErreur(nouvelleLettre, nombreErreur) {
+    nouvelleLettre.style = "color: red;";
+    conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en rouge dans le conteneur des lettres déjà essayées
+    nombreErreur += 1;
+    statErreurs.innerHTML = nombreErreur + "/5";
+    const erreur = erreurs[nombreErreur - 1];
+    erreur.classList.remove("hidden");
+    erreur.classList.add("block"); // Ajout de l'élément suivant du pendu
+    return nombreErreur;
 }
