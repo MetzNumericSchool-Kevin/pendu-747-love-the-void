@@ -8,6 +8,7 @@ const conteneurLettres = document.querySelector('#letters-used');
 const finDuJeu = document.querySelector('#game-over-modal');
 const resultat = finDuJeu.querySelector('#game-result');
 const rejouer = finDuJeu.querySelector('#game-result + div > button');
+const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 
 let mot = "";
 async function chargerMot() {
@@ -27,11 +28,18 @@ async function chargerMot() {
 async function demarrerJeu() {
     finDuJeu.close();
     await chargerMot();
+    const lettresDuMot = [...new Set(mot)].join('');
+    let nombreErreur = 0;
+    const lettresTapees = {correctes: "", toutes: ""};
     initialiserPendu();
+    nombreErreur = taperLettre(lettresTapees, nombreErreur);
+    // while (lettresTapees.correctes.length != lettresDuMot.length || nombreErreur < 5) {
+    //     nombreErreur = taperLettre(lettresTapees, nombreErreur);
+    // }
+    finDePartie(nombreErreur);
 }
 
 function initialiserPendu() {
-    let nombreErreur = 0;
     while (affichageMot.hasChildNodes()) { // On supprime les tirets et lettres de l'ancien mot
         affichageMot.removeChild(affichageMot.firstChild);
     }
@@ -42,13 +50,15 @@ function initialiserPendu() {
     }
 }
 
-function essaiLettre(lettre, mot, nombreErreur) {
+function essaiLettre(lettre, nombreErreur, lettresTapees) {
     const nouvelleLettre = document.createElement("div");
     if (mot.includes(lettre)) {
         gererReussite(nouvelleLettre);
+        lettresTapees.correctes += nouvelleLettre;
     } else {
         nombreErreur = gererErreur(nouvelleLettre, nombreErreur);
     }
+    return nombreErreur;
 }
 
 function gererReussite(nouvelleLettre) {
@@ -83,3 +93,29 @@ function finDePartie(nombreErreur) {
     }
     finDuJeu.show();
 }
+
+function taperLettre(lettresTapees, nombreErreur) {
+    let lettre = "";
+    while (!lettre) {
+        document.addEventListener('keydown', function(event) {
+            if (!alphabet.contains(event.key.toUpperCase)) {
+                alert("Veuillez taper une lettre valide.");
+                return nombreErreur;
+            }
+            if (lettresTapees.contains(event.key.toUpperCase)) {
+                alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
+                return nombreErreur;
+            }
+            lettre = event.key.toUpperCase;
+            nombreErreur = essaiLettre(lettre, nombreErreur, lettresTapees);
+            lettresTapees.toutes += lettre;
+            return nombreErreur;
+        })
+    }
+}
+
+// A FAIRE:
+// - Gérer la réussite -> vérifier à chaque essai si le mot est complètement rempli et activer le <dialog> et y écrire les résultats + streak si oui
+// - Gérer l'échec -> si le nombre d'erreurs = 5, activer le <dialog> et y écrire les résultats + streak
+// - Gérer le tiret - dans les mots
+// - Gérer les lettres déjà saisies pour éviter les doublons -> avoir une liste des lettres déjà saisies?
