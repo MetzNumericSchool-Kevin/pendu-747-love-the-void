@@ -3,7 +3,6 @@ const statErreurs = document.querySelector('#errors');
 const statStreak = document.querySelector('#record');
 const pendu = document.querySelector('#hangman');
 const erreurs = pendu.querySelectorAll("[id^=error-]");
-console.log(erreurs);
 const affichageMot = document.querySelector('#word-display');
 const conteneurLettres = document.querySelector('#letters-used');
 const finDuJeu = document.querySelector('#game-over-modal');
@@ -26,8 +25,9 @@ async function chargerMot() {
 }
 
 async function demarrerJeu() {
-  await chargerMot();
-  initialiserPendu();
+    finDuJeu.close();
+    await chargerMot();
+    initialiserPendu();
 }
 
 function initialiserPendu() {
@@ -71,4 +71,15 @@ function gererErreur(nouvelleLettre, nombreErreur) {
     erreur.classList.remove("hidden");
     erreur.classList.add("block"); // Ajout de l'élément suivant du pendu
     return nombreErreur;
+}
+
+function finDePartie(nombreErreur) {
+    if (nombreErreur === 5) {
+        resultat.innerHTML = "Score: " + nombreErreur + "/5" + " Perdu!"
+        statStreak.innerHTML = "0"
+    } else {
+        resultat.innerHTML = "Score: " + nombreErreur + "/5" + " Gagné!"
+        statStreak.innerHTML = (parseInt(statStreak.textContent) + 1).toString();
+    }
+    finDuJeu.show();
 }
