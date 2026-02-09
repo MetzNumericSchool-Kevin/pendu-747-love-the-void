@@ -28,11 +28,14 @@ async function chargerMot() {
 async function demarrerJeu() {
     finDuJeu.close();
     await chargerMot();
+    console.log(mot);
     const lettresDuMot = [...new Set(mot)].join('');
+    console.log(lettresDuMot);
     let nombreErreur = 0;
     const lettresTapees = {correctes: "", toutes: ""};
     initialiserPendu();
     nombreErreur = taperLettre(lettresTapees, nombreErreur);
+    console.log(nombreErreur);
     // while (lettresTapees.correctes.length != lettresDuMot.length || nombreErreur < 5) {
     //     nombreErreur = taperLettre(lettresTapees, nombreErreur);
     // }
@@ -95,23 +98,20 @@ function finDePartie(nombreErreur) {
 }
 
 function taperLettre(lettresTapees, nombreErreur) {
-    let lettre = "";
-    while (!lettre) {
-        document.addEventListener('keydown', function(event) {
-            if (!alphabet.contains(event.key.toUpperCase)) {
-                alert("Veuillez taper une lettre valide.");
-                return nombreErreur;
-            }
-            if (lettresTapees.contains(event.key.toUpperCase)) {
-                alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
-                return nombreErreur;
-            }
-            lettre = event.key.toUpperCase;
-            nombreErreur = essaiLettre(lettre, nombreErreur, lettresTapees);
-            lettresTapees.toutes += lettre;
+    document.addEventListener('keydown', function(event) {
+        if (!alphabet.contains(event.key.toUpperCase)) {
+            alert("Veuillez taper une lettre valide.");
             return nombreErreur;
-        })
-    }
+        }
+        if (lettresTapees.contains(event.key.toUpperCase)) {
+            alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
+            return nombreErreur;
+        }
+        lettre = event.key.toUpperCase;
+        nombreErreur = essaiLettre(lettre, nombreErreur, lettresTapees);
+        lettresTapees.toutes += lettre;
+    })
+    return nombreErreur;
 }
 
 // A FAIRE:
