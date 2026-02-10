@@ -31,7 +31,7 @@ async function chargerMot() {
 async function demarrerJeu() {
     finDuJeu.close();
     await chargerMot();
-    lettresDuMot = [...new Set(mot)].join('');
+    lettresDuMot = [...new Set(mot)].join('').replace('-', '');
     initialiserPendu();
 }
 
@@ -42,6 +42,9 @@ function initialiserPendu() {
     for (let i=0; i<mot.length; i++) { // On créé de nouveaux tirets correspondant au nouveau mot
         const aAfficher = document.createElement("span");
         aAfficher.classList.add("letter-placeholder");
+        if (mot[i] === "-") {
+            aAfficher.innerHTML = "-";
+        }
         affichageMot.appendChild(aAfficher);
     }
     nombreErreur = 0; // On initialise le compteur d'erreurs
