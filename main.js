@@ -81,6 +81,11 @@ function gererReussite(lettre) {
     nouvelleLettre.textContent = lettre;
     nouvelleLettre.style.color = "green";
     conteneurLettres.appendChild(nouvelleLettre); // Ajout de la lettre en vert dans le conteneur des lettres déjà essayées
+    for (let i=0; i<mot.length; i++) {
+        if (lettre === mot[i]) {
+            affichageMot.querySelectorAll("span")[i].innerHTML = lettre;
+        }
+    }
 }
 
 function gererErreur(lettre, nombreErreur) {
