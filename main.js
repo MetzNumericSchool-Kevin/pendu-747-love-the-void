@@ -32,7 +32,6 @@ async function demarrerJeu() {
     finDuJeu.close();
     await chargerMot();
     lettresDuMot = [...new Set(mot)].join('');
-    console.log(lettresDuMot);
     initialiserPendu();
 }
 
@@ -69,7 +68,6 @@ function essaiLettre(lettre, nombreErreur, lettresTapees) {
     if (mot.includes(lettre)) {
         gererReussite(lettre);
         lettresTapees.correctes += lettre;
-        console.log(lettresTapees);
     } else {
         nombreErreur = gererErreur(lettre, nombreErreur);
     }
@@ -103,11 +101,11 @@ function gererErreur(lettre, nombreErreur) {
 
 function finDePartie(nombreErreur) {
     if (nombreErreur === 5) {
-        resultat.innerHTML = "Perdu!" + "<br>Score: " + nombreErreur + "/5";
         statStreak.innerHTML = "0";
+        resultat.innerHTML = "Perdu!" + "<br>Erreurs: " + nombreErreur + "/5<br>Le mot était " + mot;
     } else {
-        resultat.innerHTML = "Gagné!" + "<br>Score: " + nombreErreur + "/5";
         statStreak.innerHTML = (parseInt(statStreak.textContent) + 1).toString();
+        resultat.innerHTML = "Gagné!" + "<br>Erreur(s): " + nombreErreur + "/5<br>Nombre de parties gagnées à la suite: " + statStreak.textContent;
     }
     finDuJeu.show();
 }
