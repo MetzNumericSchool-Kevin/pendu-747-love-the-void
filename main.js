@@ -56,13 +56,20 @@ function initialiserPendu() {
     lettresTapees.toutes = "";
 }
 
-demarrerJeu();
-document.addEventListener('keydown', (event) => {
-    nombreErreur = taperLettre(event, lettresTapees, nombreErreur);
-    if (nombreErreur === 5 || lettresTapees.correctes.length === lettresDuMot.length) {
-        finDePartie(nombreErreur);
+function taperLettre(event, lettresTapees, nombreErreur) {
+    if (!alphabet.includes(event.key.toUpperCase())) {
+        alert("Veuillez taper une lettre valide.");
+        return nombreErreur;
     }
-});
+    if (lettresTapees.toutes.includes(event.key.toUpperCase())) {
+        alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
+        return nombreErreur;
+    }
+    lettre = event.key.toUpperCase();
+    lettresTapees.toutes += lettre;
+    nombreErreur = essaiLettre(lettre, nombreErreur, lettresTapees);
+    return nombreErreur;
+}
 
 function essaiLettre(lettre, nombreErreur, lettresTapees) {
     if (mot.includes(lettre)) {
@@ -110,20 +117,13 @@ function finDePartie(nombreErreur) {
     finDuJeu.show();
 }
 
-function taperLettre(event, lettresTapees, nombreErreur) {
-    if (!alphabet.includes(event.key.toUpperCase())) {
-        alert("Veuillez taper une lettre valide.");
-        return nombreErreur;
+demarrerJeu();
+document.addEventListener('keydown', (event) => {
+    nombreErreur = taperLettre(event, lettresTapees, nombreErreur);
+    if (nombreErreur === 5 || lettresTapees.correctes.length === lettresDuMot.length) {
+        finDePartie(nombreErreur);
     }
-    if (lettresTapees.toutes.includes(event.key.toUpperCase())) {
-        alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
-        return nombreErreur;
-    }
-    lettre = event.key.toUpperCase();
-    lettresTapees.toutes += lettre;
-    nombreErreur = essaiLettre(lettre, nombreErreur, lettresTapees);
-    return nombreErreur;
-}
+});
 
 // A FAIRE:
 // - Gérer le tiret - dans les mots
