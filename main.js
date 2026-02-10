@@ -61,7 +61,6 @@ function initialiserPendu() {
 
 function taperLettre(event, lettresTapees, nombreErreur) {
     if (!alphabet.includes(event.key.toUpperCase())) {
-        alert("Veuillez taper une lettre valide.");
         return nombreErreur;
     }
     if (lettresTapees.toutes.includes(event.key.toUpperCase())) {
@@ -127,7 +126,3 @@ document.addEventListener('keydown', (event) => {
         finDePartie(nombreErreur);
     }
 });
-
-// A FAIRE:
-// - Gérer le tiret - dans les mots
-// - Gérer l'appui de touches utiles (ctrl, flèches, fn, ...)
