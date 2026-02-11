@@ -5,6 +5,7 @@ const affichageMot = document.querySelector('#word-display');
 const conteneurLettres = document.querySelector('#letters-used');
 const finDuJeu = document.querySelector('#game-over-modal');
 const resultat = finDuJeu.querySelector('#game-result');
+const rejouer = finDuJeu.querySelector('.btn');
 const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 const lettresTapees = {correctes: "", toutes: ""};
 let lettresDuMot = [];
@@ -57,10 +58,10 @@ function initialiserPendu() {
 }
 
 function taperLettre(event, lettresTapees, nombreErreur) {
-    if (!alphabet.includes(event.key.toUpperCase())) {
+    if (!alphabet.includes(event.key.toUpperCase())) { // Si la touche pressée n'est pas une lettre de l'alphabet, on ne fait rien
         return nombreErreur;
     }
-    if (lettresTapees.toutes.includes(event.key.toUpperCase())) {
+    if (lettresTapees.toutes.includes(event.key.toUpperCase())) { // Si la touche pressée a déjà été pressée, on affiche un message d'erreur
         alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
         return nombreErreur;
     }
@@ -106,20 +107,24 @@ function gererErreur(lettre, nombreErreur) {
 }
 
 function finDePartie(nombreErreur) {
+    document.removeEventListener('keydown', gererKeyDown);
     if (nombreErreur === 5) {
         statStreak.innerHTML = "0";
         resultat.innerHTML = "Perdu!" + "<br>Erreurs: " + nombreErreur + "/5<br>Le mot était " + mot;
-    } else {
-        statStreak.innerHTML = (parseInt(statStreak.textContent) + 1).toString();
+    } else if (lettresTapees.correctes.length === lettresDuMot.length) {
+        console.log(statStreak.textContent);
+        statStreak.innerHTML = parseInt(statStreak.textContent) + 1;
+        console.log(statStreak.textContent);
         resultat.innerHTML = "Gagné!" + "<br>Erreur(s): " + nombreErreur + "/5<br>Nombre de parties gagnées à la suite: " + statStreak.textContent;
     }
     finDuJeu.show();
 }
 
 demarrerJeu();
-document.addEventListener('keydown', (event) => {
+document.addEventListener('keydown', gererKeyDown(event));
+function gererKeyDown(event) {
     nombreErreur = taperLettre(event, lettresTapees, nombreErreur);
     if (nombreErreur === 5 || lettresTapees.correctes.length === lettresDuMot.length) {
         finDePartie(nombreErreur);
     }
-});
+}
