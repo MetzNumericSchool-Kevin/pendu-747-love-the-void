@@ -1,13 +1,10 @@
-const nouvellePartie = document.querySelector('.card-body .btn');
 const statErreurs = document.querySelector('#errors');
 const statStreak = document.querySelector('#record');
-const pendu = document.querySelector('#hangman');
-const erreurs = pendu.querySelectorAll("[id^=error-]");
+const erreurs = document.querySelectorAll("[id^=error-]");
 const affichageMot = document.querySelector('#word-display');
 const conteneurLettres = document.querySelector('#letters-used');
 const finDuJeu = document.querySelector('#game-over-modal');
 const resultat = finDuJeu.querySelector('#game-result');
-const rejouer = finDuJeu.querySelector('#game-result + div > button');
 const alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 const lettresTapees = {correctes: "", toutes: ""};
 let lettresDuMot = [];
