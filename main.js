@@ -59,11 +59,11 @@ function initialiserPendu() {
 
 function taperLettre(event, lettresTapees, nombreErreur) {
     if (!alphabet.includes(event.key.toUpperCase())) { // Si la touche pressée n'est pas une lettre de l'alphabet, on ne fait rien
-        return nombreErreur;
+        return taperLettre(event, lettresTapees, nombreErreur);
     }
     if (lettresTapees.toutes.includes(event.key.toUpperCase())) { // Si la touche pressée a déjà été pressée, on affiche un message d'erreur
         alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
-        return nombreErreur;
+        return taperLettre(event, lettresTapees, nombreErreur);
     }
     lettre = event.key.toUpperCase();
     lettresTapees.toutes += lettre;
@@ -107,7 +107,6 @@ function gererErreur(lettre, nombreErreur) {
 }
 
 function finDePartie(nombreErreur) {
-    document.removeEventListener('keydown', gererKeyDown);
     if (nombreErreur === 5) {
         statStreak.innerHTML = "0";
         resultat.innerHTML = "Perdu!" + "<br>Erreurs: " + nombreErreur + "/5<br>Le mot était " + mot;
@@ -121,10 +120,9 @@ function finDePartie(nombreErreur) {
 }
 
 demarrerJeu();
-document.addEventListener('keydown', gererKeyDown(event));
-function gererKeyDown(event) {
+document.addEventListener('keydown', (event) => {
     nombreErreur = taperLettre(event, lettresTapees, nombreErreur);
     if (nombreErreur === 5 || lettresTapees.correctes.length === lettresDuMot.length) {
         finDePartie(nombreErreur);
     }
-}
+});
