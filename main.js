@@ -63,7 +63,7 @@ function taperLettre(event, lettresTapees, nombreErreur) {
     }
     if (lettresTapees.toutes.includes(event.key.toUpperCase())) { // Si la touche pressée a déjà été pressée, on affiche un message d'erreur
         alert("Cette lettre a déjà été tapée. Veuillez en choisir une autre.");
-        return taperLettre(event, lettresTapees, nombreErreur);
+        return nombreErreur;
     }
     lettre = event.key.toUpperCase();
     lettresTapees.toutes += lettre;
